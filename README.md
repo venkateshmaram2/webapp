@@ -1,4 +1,8 @@
-# 1.GitHub
+# 1.GitHub 
+git help init ->it will open document
+git help  ->it provides frequently use sever commands 
+git help <cmd-name> ->it open documentation of that perticular command
+git 
 
 
 # 2.Git
