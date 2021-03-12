@@ -60,6 +60,8 @@ $systemctl enable artifactory
 
 $systemctl status artifactory
 
+acess artifactory  server  http://<public ip>:8081
+
 
 
 # Step 4: Install tomcat server on the above tomcat instance
