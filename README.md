@@ -30,6 +30,32 @@ Access jenkins server:  http://<PUBLIC_IP>:8080
 
 # Step 3: Install Artifactory server on the above attifactory instance
 
+$yum install -y java-1.8.0-openjdk-devel
+
+$sudo chmod 777 /etc/profile
+
+$sudo echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64" >> /etc/profile
+
+$source /etc/profile
+
+$env | grep JAVA
+
+$yum install -y net-tools rsync
+
+$wget https://api.bintray.com/content/jfrog/artifactory-rpms/jfrog-artifactory-oss/jfrog-artifactory-oss-$latest.rpm;bt_package=jfrog-artifactory-oss
+
+$yum install -y jfrog-artifactory-oss-6.6.5.rpm
+
+$echo "export ARTIFACTORY_HOME=/opt/jfrog/artifactory" >> /etc/profile
+
+$./etc/profile or source /etc/profile
+
+$env | grep ARTIFACTORY_HOME
+
+$systemctl start artifactory.service
+
+$systemctl enable artifactory.service
+
 
 # Step 4: Install tomcat server on the above tomcat instance
 
