@@ -74,31 +74,12 @@ sudo yum install java-1.8.0-openjdk-devel -y
 
 Step 3: install set up tomcat app server
 
-$sudo groupadd tomcat
+$wget https://downloads.apache.org/tomcat/tomcat-8/v8.5.64/bin/apache-tomcat-8.5.64.tar.gz
 
-$sudo useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
+$mkdir tomcat
 
-$sudo yum install wget -y
+$sudo tar xvf apache-tomcat-8*tar.gz -C /home/centos/tomcat --strip-components=1
 
-$wget https://downloads.apache.org/tomcat/tomcat-8/v8.5.57/bin/apache-tomcat-8.5.57.tar.gz
+$sudo chown -R centos:centos /home/centos/tomcat/*
 
-$sudo mkdir /opt/tomcat
-
-$sudo tar xvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
-
-$cd /opt/tomcat
-
-$sudo chgrp -R tomcat /opt/tomcat
-
-$sudo chmod -R g+r conf
-
-$sudo chmod g+x conf
-
-$sudo chown -R tomcat webapps/ work/ temp/ logs/
-
-$sudo vi /etc/systemd/system/tomcat.service
-
-[Unit]
-
-Description=Apache Tomcat Web Application…
-
+$sudo sh /home/centos/tomcat/bin/startup.sh
