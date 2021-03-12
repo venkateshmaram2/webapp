@@ -42,19 +42,24 @@ $env | grep JAVA
 
 $yum install -y net-tools rsync
 
-$wget https://api.bintray.com/content/jfrog/artifactory-rpms/jfrog-artifactory-oss/jfrog-artifactory-oss-$latest.rpm;bt_package=jfrog-artifactory-oss
+$wget https://bintray.com/jfrog/artifactory-rpms/rpm -O bintray-jfrog-artifactory-rpms.repo
 
-$yum install -y jfrog-artifactory-oss-6.6.5.rpm
+$sudo mv bintray-jfrog-artifactory-rpms.repo /etc/yum.repos.d/
 
-$echo "export ARTIFACTORY_HOME=/opt/jfrog/artifactory" >> /etc/profile
+$ sudo yum install jfrog-artifactory-oss
 
-$./etc/profile or source /etc/profile
+$sudo echo "export ARTIFACTORY_HOME=/opt/jfrog/artifactory" >> /etc/profile
+
+$source /etc/profile
 
 $env | grep ARTIFACTORY_HOME
 
-$systemctl start artifactory.service
+$systemctl start artifactory
 
-$systemctl enable artifactory.service
+$systemctl enable artifactory
+
+$systemctl status artifactory
+
 
 
 # Step 4: Install tomcat server on the above tomcat instance
