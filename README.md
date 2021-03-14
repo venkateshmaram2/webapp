@@ -89,17 +89,102 @@ $sudo sh /home/centos/tomcat/bin/startup.sh
 # Step 5 :Set up Jenkins Job to fetch repo and to build the code and to make war package
 
 New Item => Enter an Item name and choose free style project and submit ok 
+
 1.General => Description: this is my first job
+
+
 3.Source code management
-  Git => respositories => Repository URL: https://github.com/venkateshmaram2/webapp.git
+
+
+  Git => respositories => Repository URL: https://github.com/cloudstones/DevOps.git
   
   branch to build : main
   
 4.Build triggers: optional
-5.Build environment
-     optional 
- 7.Build
-    Invoke top level maven targets
-    Goals: package
+
+6.Build environment(optional)
+ 
+ 7.Build => Invoke top level maven targets => Goals: package
+
+# Step 6 :Set up Jenkins Job to fetch repo and to build the code and to make war package and release war file to Artifactory server
+
+=>creating repo
+
+Login to Jfrog Artifactory server=> Administration => Repositories => Local => ADD repositories => local repository => Basic => Package type : maven => Repository key => myrepo=> click on SAVE and FINISH
+
+=>install artifactory plugin in Jenkins
+
+Manage Jenkins=>manage plugins => Available => Artifactory
+
+=>add ertifactory server details in jenkins
+
+manage jenkins=> configure system => artifactory=> add artifactory server
+
+server id jfrog
+
+url : https://34.7.1.28:8081/artifactory
+
+username: admin
+
+pwd: admin_123
+
+apply and save
+
+step 3 to create Jenkins Job
+
+New item=> create free style project=> general=> scm=> build triggers=> build environment
+
+choose maven3-artifactory integration
+
+artifactory configuration'
+
+artifactory server: https://34.7.1.28:8081/artifactory
+
+target release repository: <target repo>
+  
+  
+=> Build
+
+choose Invoke artifactory maven3
+
+select goal
+
+package
+
+Note
+------
+if you get any error as below 
+
+This build step needs to know where your Maven3 is installed. Please do so from
+
+Then go to Global tool configuration => choose Maven
 
 
+# Step 7 :Set up Jenkins Job to fetch repo and to build the code and to make war package and release war file to Artifactory server and to deploy Tomcat server
+
+Step 1: Configuration chnages on Tomcat server
+
+=>vi /opt/tomcat/conf/tomcat-users.xml
+
+<role rolename="manager-script"/>
+
+<role rolename="manager-gui"/>
+
+<role rolename="admin-gui"/>
+
+<user username="admin" password="admin_123" roles="manager-gui"/>
+
+<user username="admin" password="admin_123" roles="admin-gui"/>
+
+ <user username="admin" password="admin_123" roles="manager-script" />
+
+=>vi /opt/tomcat/webapps/manager/META-INF/context.xml 
+
+<!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+
+ 
+manage jenkins => manage plugins => available  =>  Deploy to conatiner
+
+post build actions => Deploy war/ear to a container => WAR/EAR files: **/*.war =>Context path: optional => Containers - add container: Tomcat 8x => Tomcat url: http:<PUBLIC_IP/8080
