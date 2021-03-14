@@ -86,24 +86,20 @@ $sudo sh /home/centos/tomcat/bin/startup.sh
 
 
 
-# Set up Jenkins Job to deploy war file to Artifactory and Tomcat server
+# Step 5 :Set up Jenkins Job to fetch repo and to build the code and to make war package
 
 New Item => Enter an Item name and choose free style project and submit ok 
 1.General => Description: this is my first job
 3.Source code management
   Git => respositories => Repository URL: https://github.com/venkateshmaram2/webapp.git
+  
+  branch to build : main
+  
 4.Build triggers: optional
 5.Build environment
-     delete workspace before build starts
-6.Bindings
-    secret text => 
-                 variable = git api token,aws acces key, aws secret key,artifactory credentials, docker api keys
-                credentials=
+     optional 
  7.Build
-    Docker build and publish =>
-         Docker registry uri =     
-         repository name = 
-    Execute shell =>
-                  command = docker run
-8.Postbuild actions
+    Invoke top level maven targets
+    Goals: package
+
 
